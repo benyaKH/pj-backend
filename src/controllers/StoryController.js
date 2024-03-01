@@ -58,7 +58,7 @@ const postStory = async(request,reply) => {
         }
         const story = new Storys(request.body) 
         const result = story.save()
-        reply.send(result)
+        reply.send(story)
     }catch (error){
         reply.status(500).send(error)
     }   
