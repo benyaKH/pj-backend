@@ -75,8 +75,8 @@ const putStory = async(request,reply) => {
 
 const deleteStory = async(request,reply) => {
     try{
-        await Storys.findByIdAndDelete(request.params.id)
-        reply.status(203).send("")
+        const story = await Storys.findByIdAndDelete(request.params.id)
+        reply.status(203).send(story)
     }catch (error){
         reply.status(500).send(error)
     }   
