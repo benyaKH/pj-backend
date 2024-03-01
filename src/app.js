@@ -28,7 +28,7 @@ fastify.register(rqtagsRoutes, { prefix: "/rqtags" });
 
 const start = async () => {
   try {
-    await fastify.listen(config.port, "0.0.0.0",config.hostname)
+    await fastify.listen(config.port, "0.0.0.0")
     console.log(`app is listening on port ${config.port}`)
 
   } catch (error) {
