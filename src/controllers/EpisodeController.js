@@ -58,8 +58,8 @@ const putEpisode = async (request, reply) => {
 
 const deleteEpisode = async (request, reply) => {
     try {
-        await Episodes.findByIdAndDelete(request.params.id)
-        reply.status(203).send("")
+        const episode = await Episodes.findByIdAndDelete(request.params.id)
+        reply.status(203).send(episode)
     } catch (error) {
         reply.status(500).send(error)
     }
