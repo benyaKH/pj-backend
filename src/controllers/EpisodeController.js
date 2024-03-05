@@ -68,21 +68,17 @@ const searchEpisode = async (request, reply) => {
     try {
         var arr = request.query.keyword.split(',')
         let episode = await Episodes.find()
-        // for (let key of arr) {
-        //     var query = {
-        //         StoryId: request.params.id,
-        //     };
-        //     episode = await Episodes.find(query)
-        // }
-        var query = {
-            StoryId: request.params.id,
-            "$or":[
-                {episodetitle: {$all:arr}},
-                {description: {$all:arr}},
-                {tags:{ $all: arr }}
-            ]
+        for (let key of arr) {
+            var query = {
+                StoryId: request.params.id,
+                "$or":[
+                    {episodetitle: {$regex:key}},
+                    {description: {$regex:key}},
+                    {tags:{ $all: arr }}
+                ]
+            };
+            episode = await Episodes.find(query)
         }
-        episode = await Episodes.find(query)
         reply.send(episode)
     } catch (error) {
         reply.status(500).send(error)
