@@ -81,7 +81,7 @@ const searchEpisode = async (request, reply) => {
         // }
         var query = {
             StoryId: request.params.id,
-            tags:arr
+            tags:{ $all: arr }
         }
         episode = await Episodes.find(query)
         reply.send(episode)
