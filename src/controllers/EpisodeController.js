@@ -76,12 +76,6 @@ const searchEpisode = async (request, reply) => {
                     tags: {$regex:request.params.id}}
                 ]
             };
-            var query = {
-
-                StoryId: request.params.id,
-                tags: key
-
-            };
             episode = await Episodes.find(query)
         }
         reply.send(episode)
