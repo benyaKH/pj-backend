@@ -86,7 +86,7 @@ const searchStory = async(request,reply) => {
     try{
         var query = {
             "$or":[
-                {description: {$regex:request.params.id}}
+                {storyname: {$regex:request.params.id}}
             ]
         };
         const story = await Storys.find(query)
