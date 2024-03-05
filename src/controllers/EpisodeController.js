@@ -77,8 +77,8 @@ const searchEpisode = async (request, reply) => {
         var query = {
             StoryId: request.params.id,
             "$or":[
-                {episodetitle: {$regex:{$in:arr}}},
-                {description: {$regex:{$in:arr}}},
+                {episodetitle: {$in:{$regex:arr}}},
+                {description: {$in:{$regex:arr}}},
                 {tags:{ $all: arr }}
             ]
         }
