@@ -71,8 +71,9 @@ const searchEpisode = async (request, reply) => {
         for (let key of arr) {
             var query = {
                 "$or":[
-                    {episodetitle: {$regex:request.params.id}},
-                    {description: {$regex:request.params.id}}
+                    {storyname: {$regex:key}},
+                    {description: {$regex:key}},
+                    {tags: key}
                 ]
             };
             episode = await Episodes.find(query)
