@@ -85,6 +85,7 @@ const deleteStory = async(request,reply) => {
 const searchStory = async(request,reply) => {
     try{
         var query = {
+            IsPublic: true,
             "$or":[
                 {storyname: {$regex:request.params.id}}
             ]
