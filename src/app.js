@@ -19,7 +19,7 @@ mongoose
 
 // start my server
 fastify.register(cors, { 
-  origin:"http://localhost:5173"
+  origin:["http://localhost:5173","https://searchstory.up.railway.app"]
 })
 fastify.register(userRoutes, { prefix: "/users" });
 fastify.register(storyRoutes, { prefix: "/stories" });
