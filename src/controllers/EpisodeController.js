@@ -74,7 +74,7 @@ const searchEpisode = async (request, reply) => {
                 "$or":[
                     {episodetitle: {$regex:key}},
                     {description: {$regex:key}},
-                    {tags:{ $all: arr }}
+                    {tags:{ $in: arr }}
                 ]
             };
             episode = await Episodes.find(query)
