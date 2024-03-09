@@ -105,6 +105,15 @@ const searchStory = async (request, reply) => {
     }
 }
 
+const delField = async (request, reply) => {
+    try {
+        const story = await Storys.aggregate([ { $unset: [ "episodeId" ] } ])
+        reply.send(story)
+    } catch (error) {
+        reply.status(500).send(error)
+    }
+}
+
 
 module.exports = {
     getStorys,
@@ -114,6 +123,7 @@ module.exports = {
     deleteStory,
     getStoryByName,
     getStoryByCategory,
-    searchStory
+    searchStory,
+    delField
 
 }

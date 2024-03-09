@@ -11,7 +11,7 @@ const StorySchema = mongoose.Schema({
     },
     category: {
         type: String,
-        enum: ['Anime', 'Podcast', 'TV Series', 'Online Program'],
+        enum: ['Anime', 'Podcast', 'TV Series', 'Online Program','Others'],
         required: true
     },
     description: {
@@ -26,13 +26,7 @@ const StorySchema = mongoose.Schema({
     },
     image: {
         type: String
-    },
-    episodeId: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Episode"
-        }
-    ]
+    }
 
 })
 
