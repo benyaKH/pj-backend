@@ -8,6 +8,7 @@ async function epRoutes (fastify,options) {
     fastify.put('/:id', controllers.putEpisode)
     fastify.delete('/:id', controllers.deleteEpisode)
     fastify.get('/search/:id', controllers.searchEpisode)
+    fastify.get('/chars/:id',controllers.distinctChar)
 }
 
 module.exports = epRoutes

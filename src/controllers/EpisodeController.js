@@ -66,18 +66,33 @@ const deleteEpisode = async (request, reply) => {
 }
 const searchEpisode = async (request, reply) => {
     try {
-        var arr = request.query.keyword.split(',')
-        var narr = arr.join("|")
+        var carr = request.query.keyword.split(',')
+        var karr = request.query.chars.split(',')
+        var narr = karr.join("|")
         var query = {
             StoryId: request.params.id,
             "$or": [
                 { episodetitle: { $regex: narr  } },
                 { description: { $regex: narr  } },
-                { tags: { $all: arr } }
+                { tags: { $all: karr } },
+                { characters: { $all: carr } }
+
             ]
         };
         const episode = await Episodes.find(query)
 
+        reply.send(episode)
+    } catch (error) {
+        reply.status(500).send(error)
+    }
+}
+
+const distinctChar = async (request, reply) => {
+    try {
+        var query = {
+            StoryId: request.params.id
+        };
+        const episode = await Episodes.distinct( "characters",query)
         reply.send(episode)
     } catch (error) {
         reply.status(500).send(error)
@@ -91,5 +106,7 @@ module.exports = {
     postEpisode,
     putEpisode,
     deleteEpisode,
-    searchEpisode
+    searchEpisode,
+    distinctChar
+
 }
