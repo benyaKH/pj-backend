@@ -66,8 +66,8 @@ const deleteEpisode = async (request, reply) => {
 }
 const searchEpisode = async (request, reply) => {
     try {
-        var carr = request.query.keyword.split(',')
-        var karr = request.query.chars.split(',')
+        var karr = request.query.keyword.split(',')
+        var carr = request.query.chars.split(',')
         var narr = karr.join("|")
         var query = {
             StoryId: request.params.id,
