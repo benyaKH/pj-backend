@@ -66,18 +66,44 @@ const deleteEpisode = async (request, reply) => {
 }
 const searchEpisode = async (request, reply) => {
     try {
-        var karr = request.query.keyword.split(',')
-        var carr = request.query.chars.split(',')
-        var narr = karr.join("|")
-        var query = {
-            StoryId: request.params.id,
-            "$or": [
-                { episodetitle: { $regex: narr  } },
-                { description: { $regex: narr  } },
-                { tags: { $all: karr } },
-            ],
-            "$and":[{ characters: { $all: carr } }]
-        };
+        var query
+        if (request.query.keyword != '' && request.query.chars != '') {
+            var karr = request.query.keyword.split(',')
+            var carr = request.query.chars.split(',')
+            var narr = karr.join("|")
+            query = {
+                StoryId: request.params.id,
+                "$or": [
+                    { episodetitle: { $regex: narr } },
+                    { description: { $regex: narr } },
+                    {tags: { $all: karr }}
+                ],
+                characters: { $all: carr }
+            };
+        } else if (request.query.keyword == '' && request.query.chars != '') {
+            var carr = request.query.chars.split(',')
+            var narr = carr.join("|")
+            query = {
+                StoryId: request.params.id,
+                "$or": [
+                    { episodetitle: { $regex: narr } },
+                    { description: { $regex: narr } },
+                    { characters: { $all: carr } }
+                ]
+            };
+        } else if (request.query.keyword != '' && request.query.chars == '') {
+            var karr = request.query.keyword.split(',')
+            var narr = karr.join("|")
+            query = {
+                StoryId: request.params.id,
+                "$or": [
+                    { episodetitle: { $regex: narr } },
+                    { description: { $regex: narr } },
+                    { tags: { $all: karr } }
+                ]
+            };
+        }
+        console.log(query)
         const episode = await Episodes.find(query)
 
         reply.send(episode)
@@ -91,7 +117,7 @@ const distinctChar = async (request, reply) => {
         var query = {
             StoryId: request.params.id
         };
-        const episode = await Episodes.distinct( "characters",query)
+        const episode = await Episodes.distinct("characters", query)
         reply.send(episode)
     } catch (error) {
         reply.status(500).send(error)
