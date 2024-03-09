@@ -75,9 +75,8 @@ const searchEpisode = async (request, reply) => {
                 { episodetitle: { $regex: narr  } },
                 { description: { $regex: narr  } },
                 { tags: { $all: karr } },
-                { characters: { $all: carr } }
-
-            ]
+            ],
+            "$and":[{ characters: { $all: carr } }]
         };
         const episode = await Episodes.find(query)
 
