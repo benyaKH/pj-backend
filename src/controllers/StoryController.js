@@ -42,11 +42,23 @@ const getStoryByName = async (request, reply) => {
 
 const getStoryByCategory = async (request, reply) => {
     try {
-        var query = {
-            category: request.params.id,
-            IsPublic: true
-        };
-        const story = await Storys.find(query)
+        var query = [
+            {
+                $match: {
+                    category: request.params.id,
+                    IsPublic: true
+                }
+            },
+            {
+                $lookup: {
+                    from: "episodes",
+                    localField: "_id",
+                    foreignField: "StoryId",
+                    as: "episodesIn"
+                }
+            }
+        ]
+        const story = await Storys.aggregate(query)
         reply.send(story)
     } catch (error) {
         reply.status(500).send(error)
@@ -92,13 +104,25 @@ const deleteStory = async (request, reply) => {
 
 const searchStory = async (request, reply) => {
     try {
-        var query = {
-            IsPublic: true,
-            "$or": [
-                { storyname: { $regex: request.params.id } }
-            ]
-        };
-        const story = await Storys.find(query)
+        var query = [
+            {
+                $match: {
+                    IsPublic: true,
+                    "$or": [
+                        { storyname: { $regex: request.params.id } }
+                    ]
+                }
+            },
+            {
+                $lookup: {
+                    from: "episodes",
+                    localField: "_id",
+                    foreignField: "StoryId",
+                    as: "episodesIn"
+                }
+            }
+        ]
+        const story = await Storys.aggregate(query)
         reply.send(story)
     } catch (error) {
         reply.status(500).send(error)
