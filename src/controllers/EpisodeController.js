@@ -67,18 +67,16 @@ const deleteEpisode = async (request, reply) => {
 const searchEpisode = async (request, reply) => {
     try {
         var arr = request.query.keyword.split(',')
-        let episode = await Episodes.find()
-        for (let key of arr) {
-            var query = {
-                StoryId: request.params.id,
-                "$or":[
-                    {episodetitle: {$regex:key}},
-                    {description: {$regex:key}},
-                    {tags:{ $all: arr }}
-                ]
-            };
-            episode = await Episodes.find(query)
-        }
+        var query = {
+            StoryId: request.params.id,
+            "$or": [
+                { episodetitle: { $all: { $regex: arr } } },
+                { description: { $all: { $regex: arr } } },
+                { tags: { $all: arr } }
+            ]
+        };
+        const episode = await Episodes.find(query)
+
         reply.send(episode)
     } catch (error) {
         reply.status(500).send(error)
