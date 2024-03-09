@@ -67,11 +67,12 @@ const deleteEpisode = async (request, reply) => {
 const searchEpisode = async (request, reply) => {
     try {
         var arr = request.query.keyword.split(',')
+        var narr = arr.join("|")
         var query = {
             StoryId: request.params.id,
             "$or": [
-                { episodetitle: { $all: { $regex: arr } } },
-                { description: { $all: { $regex: arr } } },
+                { episodetitle: { $regex: narr  } },
+                { description: { $regex: narr  } },
                 { tags: { $all: arr } }
             ]
         };
