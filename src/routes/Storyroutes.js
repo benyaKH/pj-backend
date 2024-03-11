@@ -10,6 +10,7 @@ async function StoryRoutes (fastify,options) {
     fastify.get('/:id', controllers.getStoryByID)
     fastify.get('/category/:id', controllers.getStoryByCategory)
     fastify.get('/search/:id', controllers.searchStory)
+    fastify.get('/random', controllers.getrandomStorys)
 }
 
 module.exports = StoryRoutes

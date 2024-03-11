@@ -11,6 +11,15 @@ const getStorys = async (request, reply) => {
     }
 }
 
+const getrandomStorys = async (request, reply) => {
+    try {
+        const stories = await Storys.aggregate([ { $sample: { size: 3 } } ])
+        reply.send(stories)
+    } catch (error) {
+        reply.status(500).send(error)
+    }
+}
+
 const getStoryByID = async (request, reply) => {
     try {
         const story = await Storys.findById(request.params.id)
@@ -138,6 +147,7 @@ module.exports = {
     deleteStory,
     getStoryByName,
     getStoryByCategory,
-    searchStory
+    searchStory,
+    getrandomStorys
 
 }
