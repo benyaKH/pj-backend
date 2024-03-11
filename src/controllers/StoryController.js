@@ -15,7 +15,16 @@ const getrandomStorys = async (request, reply) => {
     try {
         const stories = await Storys.aggregate([
             { $match: { IsPublic: true } },
-            { $sample: { size: 3 } }])
+            { $sample: { size: 3 } },
+            {
+                $lookup: {
+                    from: "episodes",
+                    localField: "_id",
+                    foreignField: "StoryId",
+                    as: "episodesIn"
+                }
+            }
+        ])
         reply.send(stories)
     } catch (error) {
         reply.status(500).send(error)
