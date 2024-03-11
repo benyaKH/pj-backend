@@ -13,7 +13,9 @@ const getStorys = async (request, reply) => {
 
 const getrandomStorys = async (request, reply) => {
     try {
-        const stories = await Storys.aggregate([ { $sample: { size: 3 } } ])
+        const stories = await Storys.aggregate([
+            { $match: { IsPublic: true } },
+            { $sample: { size: 3 } }])
         reply.send(stories)
     } catch (error) {
         reply.status(500).send(error)
